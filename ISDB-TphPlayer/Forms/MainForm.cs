@@ -96,7 +96,7 @@ namespace ISDB_TphPlayer
                             foreach (string[] epg in epgData)
                             {
                                 epgListView.Items.Add(epg[0]);
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[1]);
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(channelListBox.SelectedItem.ToString());
                                 epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[1]);
                                 epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[2]);
                                 epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[5]);

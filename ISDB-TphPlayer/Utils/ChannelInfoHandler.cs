@@ -122,10 +122,6 @@ namespace ISDB_TphPlayer.Utils
             process.StartInfo.FileName = @"DVPiper.exe";
             process.StartInfo.Arguments = "-type DVB-T -frequency " + frequency + " -bandwidth " + bandwidth + " -command \"record(rid(123),send(file('" + frequency + ".ts')))\" -command sleep(2000) -command exit";
             process.Start();
-            while (!process.StandardOutput.EndOfStream)
-            {
-                Console.WriteLine(process.StandardOutput.ReadLine());
-            }
             process.WaitForExit();
 
             tsFile = new MediaFile(frequency + ".ts");
@@ -136,6 +132,8 @@ namespace ISDB_TphPlayer.Utils
             {
                 tsData = tsData.Replace(match.Groups[2].Value, SecurityElement.Escape(match.Groups[2].Value));
             }
+
+            tsData = new string(tsData.ToCharArray().Where(ch => XmlConvert.IsXmlChar(ch)).ToArray());
 
             doc = XDocument.Load(new StringReader(tsData));
             epgInfoSource = doc.Element("data")
