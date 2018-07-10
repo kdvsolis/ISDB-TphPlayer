@@ -138,11 +138,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)Ext_Libraries\Mediainfo.dll" "$(ProjectDir)$(OutDir)"
-copy "$(ProjectDir)Ext_Libraries\DVPiper.exe" "$(ProjectDir)$(OutDir)"
-copy "$(ProjectDir)Ext_Libraries\install_dvpiper.bat" "$(ProjectDir)$(OutDir)"
-copy "$(ProjectDir)Ext_Libraries\Streamer.dll" "$(ProjectDir)$(OutDir)"
-copy "$(ProjectDir)Ext_Libraries\settings.xml" "$(ProjectDir)$(OutDir)"</PreBuildEvent>
+    <PreBuildEvent>xcopy "$(ProjectDir)Ext_Libraries\*" "$(ProjectDir)$(OutDir)" /Y /I /E</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

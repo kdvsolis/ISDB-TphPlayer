@@ -14,6 +14,8 @@ namespace ISDB_TphPlayer
 {
     public partial class ScanForm : Form
     {
+        public bool didScanChannels { get; set; }
+
         public ScanForm()
         {
             InitializeComponent();
@@ -21,6 +23,7 @@ namespace ISDB_TphPlayer
 
         private void ScanForm_Load(object sender, EventArgs e)
         {
+            didScanChannels = false;
             bandwidthComboBox.Text = SettingsHandler.LoadSettings().FirstOrDefault(x => x[0] == "default_bandwidth")[1];
         }
 
@@ -36,9 +39,14 @@ namespace ISDB_TphPlayer
             {
                 scanButton.Text = scanButton.Text == "Scan" ? "Stop" : "Scan";
                 if (scanButton.Text == "Stop")
+                {
+                    didScanChannels = true;
                     backgroundWorker1.RunWorkerAsync(counterParams);
+                }
                 else
+                {
                     backgroundWorker1.CancelAsync();
+                }
             }
         }
 
@@ -64,6 +72,7 @@ namespace ISDB_TphPlayer
                 }
                 try
                 {
+                    label4.Invoke(new Action(() => { label4.Text = "Frequency: " + (startFreq + i).ToString(); }));
                     channelCount += ChannelInfoHandler.ScanServiceIDsPerFrequency((startFreq + i).ToString(), (bandwidth/1000).ToString(), channelCount == 0);
                     label5.Invoke(new Action(() => { label5.Text = "Channels Found: " + channelCount.ToString(); }));
                 }
@@ -71,7 +80,7 @@ namespace ISDB_TphPlayer
                 {
                     Console.WriteLine("No channels found");
                 }
-                backgroundWorker1.ReportProgress(i, startFreq + i);
+                backgroundWorker1.ReportProgress(i);
             }
             closeButton.Invoke(new Action(() => { closeButton.Enabled = true; }));
         }
@@ -79,7 +88,6 @@ namespace ISDB_TphPlayer
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-            label4.Text = "Frequency: " + ((int)e.UserState).ToString();
         }
     }
 }
