@@ -20,7 +20,7 @@ namespace ISDB_TphPlayer
 
         public VideoOptions()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private void VideoOptions_Load(object sender, EventArgs e)

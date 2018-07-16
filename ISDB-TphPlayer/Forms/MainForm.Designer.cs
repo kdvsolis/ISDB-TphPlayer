@@ -65,6 +65,7 @@
             this.channelListBox.Size = new System.Drawing.Size(262, 224);
             this.channelListBox.TabIndex = 4;
             this.channelListBox.DoubleClick += new System.EventHandler(this.channelListBox_DoubleClick);
+            this.channelListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.channelListBox_KeyPress);
             // 
             // label2
             // 
@@ -145,7 +146,7 @@
             this.axVLCPlugin21.Location = new System.Drawing.Point(0, 0);
             this.axVLCPlugin21.Name = "axVLCPlugin21";
             this.axVLCPlugin21.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axVLCPlugin21.OcxState")));
-            this.axVLCPlugin21.Size = new System.Drawing.Size(552, 499);
+            this.axVLCPlugin21.Size = new System.Drawing.Size(553, 500);
             this.axVLCPlugin21.TabIndex = 0;
             // 
             // MainForm

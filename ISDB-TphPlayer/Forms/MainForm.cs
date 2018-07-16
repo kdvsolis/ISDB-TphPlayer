@@ -34,35 +34,13 @@ namespace ISDB_TphPlayer
 
         private void channelListBox_DoubleClick(object sender, EventArgs e)
         {
-            if (channelListBox.SelectedItem != null)
-            {
-                if (channelListBox.SelectedItem.ToString().Length != 0)
-                {
-                    epgListView.Items.Clear();
-                    if (enableEPG)
-                    {
-                        string targetFrequency = channelInfoList.FirstOrDefault(x => x.Value.Where(y => y[1] == channelListBox.SelectedItem.ToString()).Count() > 0).Key;
-                        string serviceId = channelInfoList[targetFrequency].SingleOrDefault(x => x[1] == channelListBox.SelectedItem.ToString())[0];
-                        axVLCPlugin21.playlist.stop();
-                        epgData = ChannelInfoHandler.GetEPGData(targetFrequency, bandwidth, serviceId);
-                        if (epgData != null)
-                        {
-                            foreach (string[] epg in epgData)
-                            {
-                                epgListView.Items.Add(epg[0]);
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(channelListBox.SelectedItem.ToString());
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[1]);
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[2]);
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[5]);
-                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[6]);
-                            }
-                        }
-                    }
-                    currentIndexPlaying = channelListBox.SelectedIndex;
-                    axVLCPlugin21.playlist.playItem(channelListBox.SelectedIndex);
-                    axVLCPlugin21.video.fullscreen = autoFullScreen;
-                }
-            }
+            PlaySelectedChannel();
+        }
+
+        private void channelListBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == Convert.ToInt16(Keys.Enter))
+                PlaySelectedChannel();
         }
 
         private void scanButton_Click(object sender, EventArgs e)
@@ -117,6 +95,40 @@ namespace ISDB_TphPlayer
                 }
             }
         }
+
+        private void PlaySelectedChannel()
+        {
+            if (channelListBox.SelectedItem != null)
+            {
+                if (channelListBox.SelectedItem.ToString().Length != 0)
+                {
+                    epgListView.Items.Clear();
+                    if (enableEPG)
+                    {
+                        string targetFrequency = channelInfoList.FirstOrDefault(x => x.Value.Where(y => y[1] == channelListBox.SelectedItem.ToString()).Count() > 0).Key;
+                        string serviceId = channelInfoList[targetFrequency].SingleOrDefault(x => x[1] == channelListBox.SelectedItem.ToString())[0];
+                        axVLCPlugin21.playlist.stop();
+                        epgData = ChannelInfoHandler.GetEPGData(targetFrequency, bandwidth, serviceId);
+                        if (epgData != null)
+                        {
+                            foreach (string[] epg in epgData)
+                            {
+                                epgListView.Items.Add(epg[0]);
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(channelListBox.SelectedItem.ToString());
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[1]);
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[2]);
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[5]);
+                                epgListView.Items[epgListView.Items.Count - 1].SubItems.Add(epg[6]);
+                            }
+                        }
+                    }
+                    currentIndexPlaying = channelListBox.SelectedIndex;
+                    axVLCPlugin21.playlist.playItem(channelListBox.SelectedIndex);
+                    axVLCPlugin21.video.fullscreen = autoFullScreen;
+                }
+            }
+        }
+
 
     }
 }

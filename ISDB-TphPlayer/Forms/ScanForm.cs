@@ -82,6 +82,7 @@ namespace ISDB_TphPlayer
                 }
                 backgroundWorker1.ReportProgress(i);
             }
+            scanButton.Invoke(new Action(() => { scanButton.Text = "Scan"; }));
             closeButton.Invoke(new Action(() => { closeButton.Enabled = true; }));
         }
 
